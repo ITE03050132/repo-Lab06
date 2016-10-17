@@ -31,8 +31,8 @@ puts("Connected\n");
 //Send some data
 while(1)
 {
-message ="fuck";
-//scanf("%s",message);
+//message ="fuck";
+scanf("%s",message);
 if( send(socket_desc , message , strlen(message) , 0) < 0)
 	{
 		puts("Send failed");

@@ -9,7 +9,7 @@ int main(int argc , char *argv[])
 
 int socket_desc , new_socket , c;
 struct sockaddr_in server , client;
-char *message;
+char *message,str[100];
 time_t mytime;
 mytime=time(NULL);
 //Create socket
@@ -21,7 +21,7 @@ printf("Could not create socket");
 //Prepare the sockaddr_in structure
 server.sin_family = AF_INET;
 server.sin_addr.s_addr = INADDR_ANY;
-server.sin_port = htons( 8888 );
+server.sin_port = htons( 8787 );
 //Bind
 if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
 {
@@ -38,8 +38,15 @@ while( (new_socket = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*
 {
 puts("Connection accepted");
 //Reply to the client
-message=ctime(&mytime);
-write(new_socket , message , strlen(message));
+while(1)
+{
+bzero(str,100);
+read(new_socket,str,100);
+printf("Echoing back - %s",str);
+write(new_socket , str, strlen(str)+1);
+}
+//message=ctime(&mytime);
+//write(new_socket , message , strlen(message));
 }
 if (new_socket<0)
 {
@@ -48,5 +55,3 @@ return 1;
 }
 return 0;
 }
-
-/
